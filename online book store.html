@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Online Book Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header, footer {
+      background-color: pink;
+      color: blue;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .book-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .book {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin: 1rem;
+      padding: 1rem;
+      width: 200px;
+      text-align: center;
+    }
+
+    .book img {
+      width: 100%;
+      height: auto;
+    }
+
+    #cart {
+      padding: 1rem;
+      border-top: 2px solid #ccc;
+      max-width: 400px;
+      margin: 2rem auto;
+    }
+
+    #login-section {
+      max-width: 400px;
+      margin: 1rem auto;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    #login-message {
+      color: green;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Online Book Store</h1>
+  </header>
+
+  <section id="login-section">
+    <h2>Login</h2>
+    <form id="login-form">
+      <label for="email">Email:</label><br />
+      <input type="email" id="email" name="email" required /><br />
+      <button type="submit">Login</button>
+    </form>
+    <p id="login-message"></p>
+  </section>
+
+  <main>
+    <div class="book-list">
+      <div class="book">
+        <img src="https://assets.onecompiler.app/43jrwwxg9/43jrurvb3/History.jpg" alt="Rabindranath Tagore Book" />
+        <h2>All-Time Great Stories of Rabindranath Tagore</h2>
+        <p>Author: Rabindranath Tagore</p>
+        <p>Price: ₹299</p>
+        <button class="add-to-cart" data-name="All-Time Great Stories of Rabindranath Tagore" data-price="299">Add to Cart</button>
+      </div>
+
+      <div class="book">
+        <img src="https://assets.onecompiler.app/43jrwwxg9/43jrx68yx/Mathematics.jpg" alt="R.S Aggarwal" />
+        <h2>Mathematics - Class 9</h2>
+        <p>Author: R.S Aggarwal</p>
+        <p>Price: ₹199</p>
+        <button class="add-to-cart" data-name="Mathematics - Class 9" data-price="199">Add to Cart</button>
+      </div>
+      <div class="book">
+        <img src="https://assets.onecompiler.app/43jrwwxg9/43kc4pnr6/images.jpg" alt="R.Shudha" />
+        <h2>Operating System - Class 9</h2>
+        <p>Author: R.Shudha</p>
+        <p>Price: ₹200</p>
+        <button class="add-to-cart" data-name="Operating System - Class 9" data-price="200">Add to Cart</button>
+      </div>
+      <div class="book">
+        <img src="https://assets.onecompiler.app/43jrwwxg9/43kc7tmx4/DBMS.jpg" alt="Sana Sajhoni" />
+        <h2>Operating System - Class 12</h2>
+        <p>Author:Sana Sajhoni </p>
+        <p>Price: ₹551</p>
+        <button class="add-to-cart" data-name="DataBase Management System - Class 12" data-price="551">Add to Cart</button>
+      </div>
+      <div class="book">
+        <img src="https://assets.onecompiler.app/43jrwwxg9/43kc7tmx4/Hindi.jpg" alt="Sana Sajhoni" />
+        <h2>Hindi Part(1) - Class 9</h2>
+        <p>Author:Kshitiz </p>
+        <p>Price: ₹89</p>
+        <button class="add-to-cart" data-name="Kshitiz - Class 9" data-price="89">Add to Cart</button>
+      </div>
+
+
+      <!-- Add more books if needed -->
+    </div>
+  </main>
+
+  <section id="cart">
+    <h2>Cart</h2>
+    <ul id="cart-items"></ul>
+    <p id="total">Total: ₹0</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Online Book Store</p>
+  </footer>
+
+  <script>
+    let cart = [];
+    let total = 0;
+    let isLoggedIn = false;
+
+    function addToCart(bookName, price) {
+      if (!isLoggedIn) {
+        alert("Please login to add items to the cart.");
+        return;
+      }
+      cart.push({ bookName, price });
+      total += price;
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById("cart-items");
+      const totalEl = document.getElementById("total");
+
+      cartItems.innerHTML = "";
+      cart.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.bookName} - ₹${item.price}`;
+        cartItems.appendChild(li);
+      });
+
+      totalEl.textContent = `Total: ₹${total}`;
+    }
+
+    const loginForm = document.getElementById('login-form');
+    const loginMessage = document.getElementById('login-message');
+
+    loginForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      if (email) {
+        isLoggedIn = true;
+        loginMessage.textContent = `Logged in as ${email}`;
+        loginForm.reset();
+      }
+    });
+
+    // Attach event listeners after DOM is loaded
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+      button.addEventListener('click', () => {
+        const name = button.getAttribute('data-name');
+        const price = parseInt(button.getAttribute('data-price'));
+        addToCart(name, price);
+      });
+    });
+  </script>
+</body>
+</html>
